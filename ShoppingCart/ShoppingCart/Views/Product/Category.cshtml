@@ -1,0 +1,226 @@
+﻿@model ShoppingCart.Models.ProductCategoryModel
+
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<title>
+    @Styles.Render("~/Assets/css")
+   
+</title>
+<head>
+
+    <script type="text/javascript">
+        var appPath = 'ProductDetailsBrowse';
+        var getSingleProductPath = 'ViewSingleProduct';
+        function funCollectionBy(categoryId) {
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: getSingleProductPath,
+                cache: false,
+                data: {
+                    categoryId: categoryId
+                    //, __RequestVerificationToken: getAntiCsrfToken()
+                },
+                success: function (response) {
+                    if (response.d == true) {
+                        alert("You will now be redirected.");
+                        window.location = getSingleProductPath;
+                    }
+                }
+            });
+        }
+        function funDeliveryBy(DeliveryBy) {
+            $("#DeliveryBy").val(DeliveryBy);
+            $("#frmIndexSearch").submit();
+        }
+
+        function funChangeQty(qtyval, qtyId) {
+            var qtyvalSpilt = qtyval.split("|*|");
+            $("#itemQtyRate1_" + qtyId).html("Rs. " + forNum(parseFloat(qtyvalSpilt[2])));
+            $("#itemQtyRate2_" + qtyId).html("Rs. " + forNum(parseFloat(qtyvalSpilt[2])));
+            $("#selProduct1_" + qtyId).val(qtyval);
+            $("#selProduct_" + qtyId).html(qtyval);
+
+        }
+
+        function forNum(num) {
+            var num = num.toFixed(0);
+            var str = num.toString().replace("$", ""), parts = false, output = [], i = 1, formatted = null;
+            if (str.indexOf(".") > 0) {
+                parts = str.split(".");
+                str = parts[0];
+            }
+            str = str.split("").reverse();
+            for (var j = 0, len = str.length; j < len; j++) {
+                if (str[j] != ",") {
+                    output.push(str[j]);
+                    if (i % 3 == 0 && j < (len - 1)) {
+                        output.push(",");
+                    }
+                    i++;
+                }
+            }
+            formatted = output.reverse().join("");
+            return (formatted + ((parts) ? "." + parts[1].substr(0, 2) : ""));
+        }
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            spaceBetween: 0,
+            centeredSlides: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+        });
+    </script>
+    <style>
+        .section-slideshow {
+            margin-bottom: 20px;
+        }
+
+        .swiper-pagination-bullet {
+            width: 7px;
+            height: 7px;
+            background: #fff;
+            opacity: 0.7;
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: #c4ab3f;
+        }
+
+        .Teamphoto1 {
+            display: none;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: -5px;
+        }
+
+        @@media only screen and (max-width: 767px) {
+            .section-slideshow {
+                /*       padding: 5px */
+            }
+
+            .swiper-pagination-bullet {
+                width: 4px;
+                height: 4px;
+            }
+
+            .Teamphoto1 {
+                display: block;
+            }
+
+            .Teamphoto {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="section-slideshow">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="../Pics/new_01_big.jpg" class="Teamphoto" style="width:100%;">
+                        <img src="../Pics/new_01_small.png" class="Teamphoto1" style="width:100%;">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="../Pics/new_02_big.jpg" class="Teamphoto" style="width:100%;">
+                        <img src="../Pics/new02_small.jpg" class="Teamphoto1" style="width:100%;">
+                    </div>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="o-layout" style="border: 3px solid #fff; padding: 20px;">
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width:30%;">
+                <div class="delivery_to" style="font-size:18px;" align="left">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 5 })">
+                        <img class="product__img" src="../Assets/images/BrownieBox.jpg" style="width:70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(5);">
+                            <h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">BROWNIES & DESSERTS</h1>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width: 30%; ">
+                <div class="delivery_to" style="font-size:18px;" align="center">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 2 })">
+                        <img class="product__img" src="../Assets/images/Cakes.jpg" style="width:70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(2);"><h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">Cakes</h1></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width: 30%; ">
+                <div class="delivery_to" style="font-size:18px;" align="center">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 1 })">
+                        <img class="product__img" src="../Assets/images/Cupcakes.jpg" style="width:70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(1);"><h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">Cup Cake</h1></a>
+                    </div>
+                </div>
+            </div>
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width: 30%; ">
+                <div class="delivery_to" style="font-size:18px;" align="center">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 3 })">
+                        <img class="product__img" src="../Assets/images/Bread.jpg" style="width: 70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(3);"><h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">Bread</h1></a>
+                    </div>
+                </div>
+            </div>
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width: 30%; ">
+                <div class="delivery_to" style="font-size:18px;" align="center">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 4 })">
+                        <img class="product__img" src="../Assets/images/PuffPlatter.jpg" style="width:70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(4);"><h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">Puff</h1></a>
+                    </div>
+                </div>
+            </div>
+            <div class="o-layout__item u-1/2 u-1/3@tab u-1/3@desk" style="margin-top: 20px; margin-bottom: 20px; float: left; width: 30%; ">
+                <div class="delivery_to" style="font-size:18px;" align="center">
+                    <a href="@Url.Action("ViewProduct", "ProductDetailsBrowse", new { categoryId = 6 })">
+                        <img class="product__img" src="../Assets/images/MuffinPlatter.jpg" style="width:70%;">
+                    </a>
+                    <div class="section__title section__title--center js-product-title">
+                        <a href="javascript:void(0);" onClick="return funCollectionBy(6);"
+                           <h1 itemprop="name" class="section__title-text product-single__title-text" style="font-size:0.91333rem;">Muffin</h1>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

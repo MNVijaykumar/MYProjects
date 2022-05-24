@@ -1,0 +1,47 @@
+﻿@model  IEnumerable<ShoppingCart.Models.ProductDetailModel>
+
+@{
+    ViewBag.Title = "ViewProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewProduct</h2>
+
+<div>
+    <h4>ProductDetailModel</h4>
+    <hr />
+        @if (Model != null)
+        {
+            <div class="section-header">
+            </div>
+            <div class="feature-content">
+                @foreach (var item in Model)
+                {
+                    <div class="single-feature">
+                        <dl>
+                            <dd>
+                                @{
+                                    var base64 = Convert.ToBase64String(item.ImageData);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                }
+
+                                <img src="@imgSrc" width="80" height="80" />
+                                @*<img src="data:image;base64,@System.Convert.ToBase64String(item.ImageData)" width="80" height="80" />*@
+                            </dd>
+                            <dd>
+                                @Html.DisplayFor(model => item.Name)
+                            </dd>
+                            <dd>
+                                @Html.ActionLink("Buy", // <-- Link text
+                 "AddToCart" // <-- Action Method Name
+                         , new { productId = item.Id, productName = item.Name }, // <-- Route value  
+                 null // <-- htmlArguments
+                      )
+                            </dd>
+                        </dl>
+                    </div>
+                }
+            </div>
+        }
+
+</div>
