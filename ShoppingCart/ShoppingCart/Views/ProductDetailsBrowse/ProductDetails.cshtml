@@ -1,0 +1,84 @@
+﻿@model  IEnumerable<ShoppingCart.Models.ProductDetailModel>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProductDetails</title>
+    @Styles.Render("~/Assets/css")
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                alert($(this).attr('value'));
+            });
+        });
+    </script>
+
+
+</head>
+<body>
+    <div>
+        <h4>ProductDetailModel</h4>
+        @if (Model != null)
+        {
+            <div class="section-header">
+            </div>
+            <div class="feature-content">
+                @foreach (var item in Model.Where(x => x.Id < 5))
+                {
+                    <div class="col-sm-3">
+                        <div class="single-feature">
+                            @*<img src="Assets/images/features/f1.jpg" alt="website template image">*@
+                            <div class="single-feature">
+                                <div id="test" class="single-feature-txt">
+                                    <button id="scroll-Top" type="button" value=@Html.DisplayFor(model => item.Name)>@Html.DisplayFor(model => item.Name)</button>
+                                </div>
+                            </div>
+                            <div class="single-feature">
+                                <dl>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.Total)
+                                    </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.Ordered)
+                                    </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.CostPerUnit)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="section-header">
+            </div>
+            <div class="feature-content">
+                @foreach (var item in Model.Where(x => x.Id > 4))
+                {
+                    <div class="col-sm-3">
+                        <div class="single-feature">
+                            <div class="single-feature">
+                                <div class="single-feature-txt">
+                                    @Html.ActionLink(item.Name, "Index", "Home")
+                                </div>
+                            </div>
+                            <div class="single-feature">
+                                <dl>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.Total)
+                                    </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.Ordered)
+                                    </dd>
+                                    <dd>
+                                        @Html.DisplayFor(model => item.CostPerUnit)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+ </body>
+</html>
